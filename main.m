@@ -2,7 +2,7 @@ clc;
 clear;
 close all;
 
-for fileNo = 1:13
+for fileNo = 2:13
    
    [sig, bpm0 ] =  input_file(fileNo);
    
@@ -36,7 +36,7 @@ for fileNo = 1:13
     accDataY = myBandPass(accDataY);
     accDataZ = myBandPass(accDataZ);
     
-    
+    fPrev = initialize( rN , sig(4:6,:) );
    
     
          
