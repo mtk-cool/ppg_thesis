@@ -24,10 +24,23 @@ for fileNo = 1:13
                     ppgSignalAverage);
    [~,exy] = filter(adaptfilt.rls(lParameterOfRls),accDataY,ex);
    [~,exyz] = filter(adaptfilt.rls(lParameterOfRls),accDataZ,exy);
-        % exyz can be regarded as a denoised signal rRaw(n)  
-        % which is assumed to have no correlation with the 
-        % acceleration.
+        
+   rRaw = exyz;     % exyz can be regarded as a denoised signal rRaw(n)  
+                    % which is assumed to have no correlation with the 
+                    % acceleration.
+    
+    
+    % filtering all data to frequency range for human HR                
+    rN = myBandPass(rRaw);
+    accDataX = myBandPass(accDataX);
+    accDataY = myBandPass(accDataY);
+    accDataZ = myBandPass(accDataZ);
+    
+    
+   
+    
          
+       
    
 
    

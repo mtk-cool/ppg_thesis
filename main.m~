@@ -1,7 +1,6 @@
 clc;
-clear all;
+clear;
 close all;
-%x addpath(genpath('TestData'));
 
 for fileNo = 1:13
    
@@ -20,9 +19,22 @@ for fileNo = 1:13
    
    
    % rls filtering
-   for iRow = 4:6
-      [~,] 
-   end
+   lParameterOfRls = 40; % rls filter parameter
+   [~,ex] = filter(adaptfilt.rls(lParameterOfRls),accDataX,...
+                    ppgSignalAverage);
+   [~,exy] = filter(adaptfilt.rls(lParameterOfRls),accDataY,ex);
+   [~,exyz] = filter(adaptfilt.rls(lParameterOfRls),accDataZ,exy);
+        
+   rRaw = exyz;     
+        % exyz can be regarded as a denoised signal rRaw(n)  
+        % which is assumed to have no correlation with the 
+        % acceleration.
+ 
    
+    
+         
+       
+   
+
    
 end
