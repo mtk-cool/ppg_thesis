@@ -2,11 +2,13 @@ clc;
 clear;
 close all;
 
+fSampling = 125 ; % sampling frequency of the data
+
 for fileNo = 1:13
     
     [sig, bpm0 ] =  input_file(fileNo);
     
-    ecgSignal = sig(1,:); % original ecg signal
+    ecgSignal  = sig(1,:); % original ecg signal
     ppgSignal1 = sig(2,:); % ppg signal 1
     ppgSignal2 = sig(3,:); % ppg signal 2
     
@@ -31,17 +33,17 @@ for fileNo = 1:13
     
     
     % filtering all data to frequency range for human HR
-    rN = myBandPass(rRaw);
-    accDataX = myBandPass(accDataX);
-    accDataY = myBandPass(accDataY);
-    accDataZ = myBandPass(accDataZ);
+    rN       = myBandPass(rRaw,fSampling);
+    accDataX = myBandPass(accDataX,fSampling);
+    accDataY = myBandPass(accDataY,fSampling);
+    accDataZ = myBandPass(accDataZ,fSampling);
     
-    fPrev = initialize( rN(1:1000) , sig(4:6,1:1000) ); % intial value of bpm
+    fPrev = initialize( rN(1:1000), sig(4:6,1:1000), fSampling ); % intial value of bpm
     
     
     % bandpassing all the data of signal
-    filterObj = fdesign.bandpass( 70/(125*60), 80/(125*60),...
-                400/(125*60), 410/(125*60), 80, 0.01, 80  );
+    filterObj = fdesign.bandpass( 70/(fSampling*60), 80/(fSampling*60),...
+                400/(fSampling*60), 410/(fSampling*60), 80, 0.01, 80  );
     D = design(filterObj,'iir');
     for i=2:6
         sig(i,:)=filter(D,sig(i,:));
@@ -58,7 +60,7 @@ for fileNo = 1:13
        
         currentSegment = iSegment : ( iSegment + 1000 - 1 );
         
-        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev)
+        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev);
         
     end
     

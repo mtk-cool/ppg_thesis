@@ -1,4 +1,4 @@
-function fPrev = initialize(sig,accData)
+function fPrev = initialize(sig, accData, fSampling)
 % initialize estimate initial fequency
     % parameters 
     % ----------
@@ -10,7 +10,7 @@ function fPrev = initialize(sig,accData)
     %   fPrev   : returns initial value of frequency
     
 w=linspace(50,150,4000);
-ww = 2 * pi * w / (125 * 60); 
+ww = 2 * pi * w / (fSampling * 60); 
 fSig = abs(freqz(sig, 1, ww));
 
 [~,locs]=findpeaks(fSig, 'MINPEAKHEIGHT', 0.8*max(fSig),...

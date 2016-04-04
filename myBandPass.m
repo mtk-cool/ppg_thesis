@@ -1,4 +1,4 @@
-function y = myBandPass(x)
+function y = myBandPass(x,fSampling)
 % myBandPass returns filtered data of x
     % y = myBandPass(x), passed through an infinite impulse 
     % response bandpass filter with lower and upper passband 
@@ -8,8 +8,8 @@ function y = myBandPass(x)
     % respectively, and passband ripple 0.01, 
     % stopband attenuation 80 dB 
 
-filterObj=fdesign.bandpass(30/(125*60), 40/(125*60),...
-                           400/(125*60), 410/(125*60),...
+filterObj=fdesign.bandpass(30/(fSampling*60), 40/(fSampling*60),...
+                           400/(fSampling*60), 410/(fSampling*60),...
                             80, 1, 80);
 designedFilter = design(filterObj, 'iir');
 
