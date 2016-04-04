@@ -1,11 +1,16 @@
 function fPrev = initialize(sig,accData)
 % initialize estimate initial fequency
-    % parameters : 
+    % parameters 
+    % ----------
     %   sig     : ppg signal data
     %   accData : accelaration data (x,y,z)
     
+    % output
+    % --------
+    %   fPrev   : returns initial value of frequency
+    
 w=linspace(50,150,4000);
-ww = 2 * pi * linspace(50,150,4000) / (125 * 60); 
+ww = 2 * pi * w / (125 * 60); 
 fSig = abs(freqz(sig, 1, ww));
 
 [~,locs]=findpeaks(fSig, 'MINPEAKHEIGHT', 0.8*max(fSig),...

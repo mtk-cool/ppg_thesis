@@ -2,7 +2,7 @@ clc;
 clear;
 close all;
 
-for fileNo = 1:13
+for fileNo = 2:13
     
     [sig, bpm0 ] =  input_file(fileNo);
     
@@ -36,7 +36,7 @@ for fileNo = 1:13
     accDataY = myBandPass(accDataY);
     accDataZ = myBandPass(accDataZ);
     
-    fPrev = initialize( rN(1:1000) , sig(4:6,1:1000) ); % intial value of bpm
+    fPrev = initialize( rN , sig(4:6,:) ); % intial value of bpm
     
     
     % bandpassing all the data of signal
@@ -52,15 +52,9 @@ for fileNo = 1:13
     
     iStart = 1;
     iStep  = 250;
-    iStop  = length(rN);
+    iStop  = length( rN);
     
-    for iSegment = iStart : iStep : iStop
-       
-        currentSegment = iSegment : ( iSegment + 1000 - 1 );
-        
-        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev)
-        
-    end
+    
     
     
     
