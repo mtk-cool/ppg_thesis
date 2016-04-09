@@ -2,6 +2,8 @@ clc;
 clear;
 close all;
 
+
+
 fSampling = 125 ; % sampling frequency of the data
 
 for fileNo = 1:13
