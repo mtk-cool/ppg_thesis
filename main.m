@@ -62,7 +62,7 @@ for fileNo = 1:13
        
         currentSegment = iSegment : ( iSegment + 1000 - 1 );
         
-        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev);
+        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev,fSampling);
         
     end
     
