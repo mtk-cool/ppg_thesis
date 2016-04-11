@@ -7,8 +7,9 @@ function maxFreqs = maxFindFromThreshold (sig,threshold,fSampling)
    
    
 
-   [ ~ , maxFreqs] =  findpeaks(Psig,'minpeakheight',threshold * max(Psig),...
+   [ ~ , maxLocs] =  findpeaks(Psig,'minpeakheight',threshold * max(Psig),...
     'minpeakdistance',3,'SortStr','descend');
 
+    maxFreqs = w(maxLocs);
 
 end

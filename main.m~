@@ -5,8 +5,6 @@ close all;
 
 
 fSampling = 125 ; % sampling frequency of the data
-multiplier = round(fSampling/128);
-
 
 for fileNo = 1:13
     
@@ -57,16 +55,16 @@ for fileNo = 1:13
     % now doing the emd portion 
     
     iStart = 1;
-    iStep  = 250 * multiplier ;
+    iStep  = 250;
     iStop  = length(rN);
     
-    delta_count = 0 ; % need in EEMD
+    delta_increment = 0 ; % need in EEMD
     
     for iSegment = iStart : iStep : iStop
        
-        currentSegment = iSegment : ( iSegment + 1000 * multiplier - 1 );
+        currentSegment = iSegment : ( iSegment + 1000 - 1 );
         
-        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev,delta_count,fSampling);
+        [freqEstimates,peaks] = doEEMD(sig(:,currentSegment),fPrev,fSampling);
         
         % we construct Simf \3 Sa, 0.5, and from this set, we 
         % take the peak location nearest to fprev
@@ -74,35 +72,16 @@ for fileNo = 1:13
         
         if freqEstimates ~= -1
            % tracking from AC 
-           delta_count = 0;
+           delta_increment = 0;
            fprintf('tracking from AC');
            
         elseif minimum <= 7 % If its distance from fprev is within 7 BPM
-                            % tracking from emd 2
-            freqEstimates = peaks(loc);
-            if delta_count>0
-               delta_count = delta_count - 0.5; 
-            end
-            fprintf('tracking from emd ');
-        else % track from rls
-            delta_count = delta_count + 1;
-            
-            y_cropped = rN(currentSegment);
-            
-            % we put its dominant peaks (80% of the maximum) in 
-            % Srls
-            S_rls = maxFindFromThreshold(y_cropped,0.8,fSampling);
-            
-            % We also construct Sa, 0.6 by taking the dominant peaks 
-            %(60% of the maximum, a moderate threshold for tracking 
-            % purpose) from a? (n)
-            
-             
-            
-            
+            delta_increment = delta_increment + 1; 
         end
         
     end
+    
+    
     
     
     
