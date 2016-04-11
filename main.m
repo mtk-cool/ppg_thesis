@@ -97,9 +97,50 @@ for fileNo = 1:13
             %(60% of the maximum, a moderate threshold for tracking 
             % purpose) from a? (n)
             
+            S_a = [];
+            for iAcc = 4:6
+                
+                dominantPeaks = maxFindFromThreshold(sig(iAcc,currentSegment),...
+                    0.6,fSampling);
+                if length(dominantPeaks)>2
+                   dominantPeaks = dominantPeaks(1:2); 
+                end
+                S_a = [S_a , dominantPeaks];
+                
+            end
              
+            % set Srls\3 Sa,0.6
+            f_rls_set = [];
             
+            for iRls = S_rls
+               
+                if min( abs( S_a - iRls ) ) > 3
+                    f_rls_set = [f_rls_set , iRls];                    
+                end
+                
+            end
             
+            f_rls_set = f_rls_set( find(f_rls_set>40 & f_rls_set<200 ) );
+            
+            if length(f_rls_set)==1 && abs(f_rls_set-fPrev)<25
+               freqEstimates = f_rls_set(1); 
+               fprintf('abs cause');
+            
+            elseif freq_td ~= -1 && abs(freq_td - fPrev ) < 12
+                % from td
+                fprintf('tracking from td');
+                
+              
+            else  
+                % strongest peak in Srls is looked for such that it lies 
+                % close to fprev within a range 7 - 12 BPM
+                
+                f_ = max(f_rls_set);
+                if abs(f_ - fPrev)<=12
+                   freqEstimates = f_; 
+                end
+               
+            end          
         end
         
     end

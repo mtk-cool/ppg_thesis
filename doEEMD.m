@@ -4,7 +4,7 @@ function [freqEstimates,peaks] = doEEMD(sig,fPrev,delta_count,fSampling)
 
 % ensemble of NE signals is created from the given signal
 % by adding white Gaussian noise of 30db
-NE = 5;
+NE = 8;
 SNR = 30;
 
 imfs1 = {} ; % imfs of the first channel
@@ -26,7 +26,7 @@ else
     error('Sampling frequency must be 25,125,250 or 500 Hz');
 end
 
-for i = 1:8
+for i = 1:NE
     
     % imf for first channel
     iSig = 2;
